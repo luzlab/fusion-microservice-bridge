@@ -1,0 +1,12 @@
+{
+	"autodeskProduct":	"Fusion360",
+	"type":	"addin",
+	"id":	"6f117ef2-6e25-43b8-b227-5432c3bc880f",
+	"author":	"FATHOM",
+	"description":	{
+		"":	"Adds FATHOM SmartQuote capabilities to Fusion360"
+	},
+	"version":	"0",
+	"runOnStartup":	false,
+	"supportedOS":	"windows|mac"
+}
