@@ -4,6 +4,8 @@
 import adsk.core
 import adsk.fusion
 import traceback
+import json
+import tempfile
     
 commandId = 'FATHOM-Microservice';
 commandName = 'FATHOM Microservice';
@@ -43,16 +45,27 @@ class URLOpeningHandler(adsk.core.WebRequestEventHandler):
     def __init__(self):
         super().__init__()
     def notify(self, args):
+        ui.messageBox('Running!');
         eventArgs = adsk.core.WebRequestEventArgs.cast(args)
         eventArgs.isCanceled = True
         cmdDef = ui.commandDefinitions.itemById(commandId)
         if not cmdDef:
             raise ReferenceError('{} command not found'.format(commandId))
-        namedValues = adsk.core.NamedValues.create();
-        namedValues.add('params', adsk.core.ValueInput.createByString(eventArgs.privateInfo))
-        (returnValue, name, value) = namedValues.getByIndex(0);
-        ui.messageBox('privateInfo = {}'.format(value.stringValue))
-        cmdDef.execute(namedValues)
+        # data = eventArgs.privateInfo;
+        data = {'Name': 'Zara', 'Age': 7}
+        # with open(data, 'w') as outfile:
+        #     json.dump('foobar', outfile, indent=4);
+
+        # tempfile.gettempdir()
+        ui.messageBox('ID is '+eventArgs.id);
+        ui.messageBox('Temp dir is '+tempfile.gettempdir());
+        
+
+        # namedValues = adsk.core.NamedValues.create();
+        # namedValues.add('params', adsk.core.ValueInput.createByString(eventArgs.privateInfo))
+        # (returnValue, name, value) = namedValues.getByIndex(0);
+        # ui.messageBox('privateInfo = {}'.format(value.stringValue))
+        # cmdDef.execute(namedValues)
     def destroy(self):
         app.openingFromURL.remove(self)
 
