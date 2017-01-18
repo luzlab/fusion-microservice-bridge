@@ -5,6 +5,7 @@ import adsk.core
 import adsk.fusion
 import traceback
 import json
+import os
 import tempfile
     
 commandId = 'FATHOM-Microservice';
@@ -51,21 +52,22 @@ class URLOpeningHandler(adsk.core.WebRequestEventHandler):
         cmdDef = ui.commandDefinitions.itemById(commandId)
         if not cmdDef:
             raise ReferenceError('{} command not found'.format(commandId))
-        # data = eventArgs.privateInfo;
-        data = {'Name': 'Zara', 'Age': 7}
-        # with open(data, 'w') as outfile:
-        #     json.dump('foobar', outfile, indent=4);
+        data = eventArgs.privateInfo;
+        # data = {'Name': 'Zara', 'Age': 7}
+        datafilePath = os.path.join(tempfile.gettempdir(),'data1.json')
+        with open(datafilePath, 'w') as outfile:
+            json.dump(data, outfile, indent=4);
 
         # tempfile.gettempdir()
         ui.messageBox('ID is '+eventArgs.id);
-        ui.messageBox('Temp dir is '+tempfile.gettempdir());
+        ui.messageBox('Private info is '+eventArgs.privateInfo);
+        ui.messageBox('Temp dir is '+datafilePath);
         
-
         # namedValues = adsk.core.NamedValues.create();
         # namedValues.add('params', adsk.core.ValueInput.createByString(eventArgs.privateInfo))
         # (returnValue, name, value) = namedValues.getByIndex(0);
         # ui.messageBox('privateInfo = {}'.format(value.stringValue))
-        # cmdDef.execute(namedValues)
+        cmdDef.execute()
     def destroy(self):
         app.openingFromURL.remove(self)
 
